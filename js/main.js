@@ -1,7 +1,8 @@
-var game = new Phaser.Game(720, 1280, Phaser.AUTO, 'phaser', { preload: preload, create: create, update: update});
+var game = new Phaser.Game(360, 640, Phaser.AUTO, 'phaser', { preload: preload, create: create, update: update});
 var centerx = game.width / 2;
 var centery = game.height / 2;
 var players = [];
+var road;
 var sprites = [
   "eng",
   "car1",
@@ -10,7 +11,8 @@ var sprites = [
   "car4",
   "car5",
   "car6",
-  "car7"
+  "car7",
+  "road"
 ];
 
 function preload() {
@@ -20,11 +22,15 @@ function preload() {
 }
 
 function create() {
+  road = game.add.tileSprite(0, 0, game.width, game.height, 'road');
   createPlayer(150);
+  game.input.onDown.add(go_fullscreen, this);
 }
 
 function update(){
   movePlayers();
+
+  road.tilePosition.y += 2;
 }
 
 function movePlayers(){
@@ -34,12 +40,10 @@ function movePlayers(){
     }
     player.body.y = player.posY;
     //stop movement when player reaches cursor 
-    /*
     if (Phaser.Rectangle.contains(player.body, game.input.x, game.input.y))
     {   
         player.body.velocity.setTo(0, 0);
     }
-    */
   })
 }
 
@@ -52,3 +56,9 @@ function createPlayer(y){
   game.physics.enable(player, Phaser.Physics.ARCADE); 
   
 }
+
+function go_fullscreen(){
+  game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+  game.scale.startFullScreen();
+}
+
