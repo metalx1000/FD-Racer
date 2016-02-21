@@ -22,12 +22,17 @@ var sprites = [
 ];
 
 function preload() {
+  //Music by Simon Wessel https://youtu.be/9qU9ieI2bbM
+  game.load.audio('music', [ 'sounds/music.ogg', 'sounds/music.mp3']);
   sprites.forEach(function(sprite){
     game.load.image(sprite,'res/'+sprite+'.png');
   });
 }
 
 function create() {
+  music = game.add.audio('music');
+  music.play();
+  music.loop = true;
   road = game.add.tileSprite(0, 0, game.width, game.height, 'road');
   players = game.add.group(); 
   players.enableBody = true;
@@ -52,7 +57,7 @@ function update(){
 function moveTile(){
   if(gameOver != true){
     tileSpeed = ispeed * .1;
-    if(tileSpeed > 3){titleSpeed = 3}
+    if(tileSpeed > 1){titleSpeed = 1}
     road.tilePosition.y += tileSpeed;
   }
 }
