@@ -1,7 +1,8 @@
 var game = new Phaser.Game(360, 640, Phaser.AUTO, 'phaser', { preload: preload, create: create, update: update});
 var centerx = game.width / 2;
 var centery = game.height / 2;
-var players = [];
+var players;
+var gameOver = false;
 var cars;
 var lastLane = 0;
 var ispeed = 10;
@@ -28,6 +29,8 @@ function preload() {
 
 function create() {
   road = game.add.tileSprite(0, 0, game.width, game.height, 'road');
+  players = game.add.group(); 
+  players.enableBody = true;
   createPlayer(150);
   game.input.onDown.add(go_fullscreen, this);
   cars = game.add.group();
@@ -38,11 +41,20 @@ function create() {
 }
 
 function update(){
-  movePlayers();
 
-  tileSpeed = ispeed * .1;
-  if(tileSpeed > 3){titleSpeed = 3}
-  road.tilePosition.y += tileSpeed;
+  //if player and enemy collide kill player
+  game.physics.arcade.overlap(players, cars, hitPlayer, null, this);
+
+  movePlayers();
+  moveTile();
+}
+
+function moveTile(){
+  if(gameOver != true){
+    tileSpeed = ispeed * .1;
+    if(tileSpeed > 3){titleSpeed = 3}
+    road.tilePosition.y += tileSpeed;
+  }
 }
 
 function movePlayers(){
@@ -60,10 +72,9 @@ function movePlayers(){
 }
 
 function createPlayer(y){
-  var player = game.add.sprite(game.width/2, game.height - y, "eng");
+  var player = players.create(game.width/2, game.height - y, "eng");
   console.log(player);
   player.posY = game.height - y;
-  players.push(player);
   player.anchor.set(0.5);
   game.physics.enable(player, Phaser.Physics.ARCADE); 
   
@@ -95,4 +106,9 @@ function createCar(){
     }
     car.body.velocity.y = Math.floor(Math.random() * 30) + speed;
   }
+}
+
+function hitPlayer(){
+  gameOver = true;
+  game.physics.arcade.isPaused = true;
 }
