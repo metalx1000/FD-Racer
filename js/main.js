@@ -8,7 +8,7 @@ var lastLane = 0;
 var ispeed = 10;
 var lanes = [.1,.4,.65,.9];
 var tileSpeed = ispeed * .1; 
-var road;
+var road, score = 0, text;
 var sprites = [
   "eng",
   "car1",
@@ -23,6 +23,7 @@ var sprites = [
 ];
 
 function preload() {
+  game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   //Music by Simon Wessel https://youtu.be/9qU9ieI2bbM
   game.load.audio('music', [ 'sounds/music.wav', 'sounds/music.ogg', 'sounds/music.mp3']);
   //Car Crash sound by Cam Martinez http://soundbible.com/1757-Car-Brake-Crash.html
@@ -45,12 +46,26 @@ function create() {
   cars = game.add.group();
   cars.enableBody = true;
 
+  //text for score
+    var style = { font: "bold 32px Arial",
+      fill: "#fff",
+      boundsAlignH: "left", 
+      boundsAlignV: "top" 
+    };
+
+    //  The Text is positioned at 0, 100
+    text = game.add.text(0, 0, "0", style);
+    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+    //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
+    text.setTextBounds(0, 0, 800, 100);
   //add cars if not already exist
   if(!carE){createCar()};
 }
 
 function update(){
-
+  score += 1;
+  text.text = score;
   //if player and enemy collide kill player
   game.physics.arcade.overlap(players, cars, hitPlayer, null, this);
 
