@@ -69,7 +69,7 @@ function create() {
 function update(){
   if(gameOver != true){
     score += 1;
-    text.text = score;
+    text.text = "SCORE: " + score;
   }
   //if player and enemy collide kill player
   game.physics.arcade.overlap(players, cars, hitPlayer, null, this);
