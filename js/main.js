@@ -166,15 +166,16 @@ function reset(){
 function dispatch(){
   var eng = random(20,24);
   var addnum = random(100,999);
-  console.log(addnum);
   var street = ["pine","maple","palm","elm"];
   street = street[Math.floor(Math.random() * street.length)];
   var streetType = ["road","street","lane","circle","way"];
   streetType = streetType[Math.floor(Math.random()*streetType.length)];
-  var msg = new SpeechSynthesisUtterance('Engine ' + eng + " structure fire. " + addnum + " " + street + " " + streetType);
-  msg.volume = .5;
-  msg.lang = 'en-US';
-  window.speechSynthesis.speak(msg);
+  if ('speechSynthesis' in window) {
+    var msg = new SpeechSynthesisUtterance('Engine ' + eng + " structure fire. " + addnum + " " + street + " " + streetType);
+    msg.volume = .5;
+    msg.lang = 'en-US';
+    window.speechSynthesis.speak(msg);
+  }
 }
 
 function random(min,max)
