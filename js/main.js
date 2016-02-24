@@ -35,6 +35,7 @@ function preload() {
 }
 
 function create() {
+  score = 0;
   music = game.add.audio('music');
   music.play();
   music.loop = true;
@@ -59,13 +60,17 @@ function create() {
 
     //  We'll set the bounds to be from x0, y100 and be 800px wide by 100px high
     text.setTextBounds(0, 0, 800, 100);
+
+  dispatch();
   //add cars if not already exist
   if(!carE){createCar()};
 }
 
 function update(){
-  score += 1;
-  text.text = score;
+  if(gameOver != true){
+    score += 1;
+    text.text = score;
+  }
   //if player and enemy collide kill player
   game.physics.arcade.overlap(players, cars, hitPlayer, null, this);
 
@@ -155,4 +160,24 @@ function reset(){
   players.destroy(true,false);
   cars.destroy(true,false);
   create();
+}
+
+//dispatch
+function dispatch(){
+  var eng = random(20,24);
+  var addnum = random(100,999);
+  console.log(addnum);
+  var street = ["pine","maple","palm","elm"];
+  street = street[Math.floor(Math.random() * street.length)];
+  var streetType = ["road","street","lane","circle","way"];
+  streetType = streetType[Math.floor(Math.random()*streetType.length)];
+  var msg = new SpeechSynthesisUtterance('Engine ' + eng + " structure fire. " + addnum + " " + street + " " + streetType);
+  msg.volume = .5;
+  msg.lang = 'en-US';
+  window.speechSynthesis.speak(msg);
+}
+
+function random(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
 }
