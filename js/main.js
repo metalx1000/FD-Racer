@@ -23,7 +23,8 @@ var sprites = [
 ];
 
 function preload() {
-  game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL; 
   //Music by Simon Wessel https://youtu.be/9qU9ieI2bbM
   game.load.audio('music', [ 'sounds/music.wav', 'sounds/music.ogg', 'sounds/music.mp3']);
   //Car Crash sound by Cam Martinez http://soundbible.com/1757-Car-Brake-Crash.html
